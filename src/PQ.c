@@ -1,54 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/PQ.h"
-#include "../include/item.h"
+#include "../include/node.h"
 
-static Item *pq;
 static int *map;
 static int N;
 
-static void swap(int i, int j)
+static void swap(Node *pq, int i, int j)
 {
     exch(pq[i], pq[j]);
     map[id(pq[i])] = i;
     map[id(pq[j])] = j;
 }
 
-void fix_up(Item *a, int k)
+void fix_up(Node *pq, int k)
 {
-    while (k > 1 && more(a[k / 2], a[k]))
+    while (k > 1 && more(pq[k / 2], pq[k]))
     {
-        swap(k, k / 2);
+        swap(pq, k, k / 2);
         k = k / 2;
     }
 }
 
-void fix_down(Item *a, int sz, int k)
+void fix_down(Node *pq, int sz, int k)
 {
     while (2 * k <= sz)
     {
         int j = 2 * k;
-        if (j < sz && more(a[j], a[j + 1]))
+        if (j < sz && more(pq[j], pq[j + 1]))
         {
             j++;
         }
-        if (!more(a[k], a[j]))
+        if (!more(pq[k], pq[j]))
         {
             break;
         }
-        swap(k, j);
+        swap(pq, k, j);
         k = j;
     }
 }
 
-void PQ_init(int maxN)
+void PQ_init(Node *pq, int maxN)
 {
-    pq = (Item *)malloc((maxN + 1) * sizeof(Item));
+    pq = (Node *)malloc((maxN + 1) * sizeof(Node));
     map = (int *)malloc((maxN + 1) * sizeof(int));
     N = 0;
 }
 
-void PQ_insert(Item v)
+void PQ_insert(Node *pq, Node v)
 {
     N++;
     pq[N] = v;
@@ -56,21 +55,21 @@ void PQ_insert(Item v)
     fix_up(pq, N);
 }
 
-Item PQ_delmin()
+Node PQ_delmin(Node *pq)
 {
-    Item min = pq[1];
-    swap(1, N);
+    Node min = pq[1];
+    swap(pq, 1, N);
     N--;
     fix_down(pq, N, 1);
     return min;
 }
 
-Item PQ_min()
+Node PQ_min(Node *pq)
 {
     return pq[1];
 }
 
-void PQ_decrease_key(int id, Edge value)
+void PQ_decrease_key(Node *pq, int id, double value)
 {
     int i = map[id];
     value(pq[i]) = value;
@@ -87,7 +86,7 @@ int PQ_size()
     return N;
 }
 
-void PQ_finish()
+void PQ_finish(Node *pq)
 {
     free(pq);
     free(map);

@@ -3,11 +3,12 @@
 /*
 This approach was chosen to avoid pointer access
 which would be the case with incomplete types
-*/ 
+*/
 
 // Don`t need getters and setters for structs
 // Get and Set properties with "." operator
-struct edge{
+struct edge
+{
     int src;
     int dest;
     double distance;
