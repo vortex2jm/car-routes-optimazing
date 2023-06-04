@@ -15,7 +15,7 @@ static void swap(Node *pq, int i, int j)
 
 void fix_up(Node *pq, int k)
 {
-    while (k > 1 && more(pq[k / 2], pq[k]))
+    while (k > 1 && greater(pq[k / 2], pq[k]))
     {
         swap(pq, k, k / 2);
         k = k / 2;
@@ -27,11 +27,11 @@ void fix_down(Node *pq, int sz, int k)
     while (2 * k <= sz)
     {
         int j = 2 * k;
-        if (j < sz && more(pq[j], pq[j + 1]))
+        if (j < sz && greater(pq[j], pq[j + 1]))
         {
             j++;
         }
-        if (!more(pq[k], pq[j]))
+        if (!greater(pq[k], pq[j]))
         {
             break;
         }

@@ -9,7 +9,7 @@ typedef struct
 
 #define id(A) (A.id)                     // return node identifier
 #define value(A) (A.value)               // return node value
-#define more(A, B) (value(A) > value(B)) // compare two nodes values
+#define greater(A, B) (value(A) > value(B)) // compare two nodes values
 #define exch(A, B) \
   {                \
     Node t = A;    \
