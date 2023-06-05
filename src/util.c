@@ -1,38 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/util.h"
-#include "../include/edge.h"
-
-// Prototypes =============================================//
-void read_file_header(int *node_amount, int *edge_amount, int *src_node, int *dest_node, FILE *file);
-double calculate_weight(double distance, double velocity);
-Edge *read_edges(FILE *file, int edge_amount);
 
 // Implementations=========================================//
-void read_file_header(int *node_amount, int *edge_amount, int *src_node, int *dest_node, FILE *file)
+void read_file_header(int *node_amount, int *edge_amount, int *src_node, int *dest_node, double *velocity, FILE *file)
 {
-    fscanf(file, "%d;%d\n%d;%d\n", node_amount, edge_amount, src_node, dest_node);
+    fscanf(file, "%d;%d\n%d;%d\n%lf\n", node_amount, edge_amount, src_node, dest_node, velocity);
 }
 
-Edge *read_edges(FILE *file, int edge_amount)
-{
-    // Reading velocity
-    double velocity = 0.0;
-    fscanf(file, "%lf\n", &velocity);
+// Depracated
+//======================================================//
+// Edge *read_edges(FILE *file, int edge_amount)
+// {
+//     // Reading velocity
+//     double velocity = 0.0;
+//     fscanf(file, "%lf\n", &velocity);
 
-    Edge *edge_vector = malloc(sizeof(Edge) * edge_amount);
+//     Edge *edge_vector = malloc(sizeof(Edge) * edge_amount);
+//     int src, dest;
+//     double distance, weight;
+
+//     for (int x = 0; x < edge_amount; x++)
+//     {
+//         fscanf(file, "%d;%d;%lf\n", &src, &dest, &distance);
+//         weight = calculate_weight(distance, velocity); // weight = time
+//         edge_vector[x] = init_edge(src, dest, distance, weight);
+//     }
+//     return edge_vector;
+// }
+
+// Reading edges and creating adjacency vector
+//======================================================//
+AdjList ** read_edges(FILE * file, int node_amount, int edge_amount){
+
+    AdjList ** list_vector = malloc(sizeof(AdjList*) * node_amount);
+    for(int x=0; x<node_amount; x++){
+        list_vector[x] = init_list();
+    }
+
+    Adj adj;
     int src, dest;
     double distance, weight;
 
     for (int x = 0; x < edge_amount; x++)
     {
         fscanf(file, "%d;%d;%lf\n", &src, &dest, &distance);
-        weight = calculate_weight(distance, velocity); // weight = time
-        edge_vector[x] = init_edge(src, dest, distance, weight);
+        adj = init_adj(dest, distance);
+        list_push(list_vector[src-1], adj);
     }
-    return edge_vector;
+
+    return list_vector;
 }
 
+//======================================================//
 Update *read_updates(FILE *file, int * updates_amount)
 {
     // Getting current seek
@@ -67,6 +87,7 @@ Update *read_updates(FILE *file, int * updates_amount)
     return updates;
 }
 
+//======================================================//
 double calculate_weight(double distance, double velocity)
 {
     // Transforming velocity to m/s

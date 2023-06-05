@@ -9,11 +9,16 @@ Adj init_adj(int node_id, double distance){
     return adj;
 }
 
+void print_adj(Adj adj){
+    printf("%d, %lf\n", adj.node_id, adj.distance);
+}
+
 //===============//
-typedef struct{
+typedef struct cell Cell;
+struct cell{
     Adj adj;
     Cell * next;
-}Cell;
+};
 
 struct adj_list{
     Cell * first;
@@ -31,15 +36,22 @@ AdjList * init_list(){
 // You can  add parameters to this function too
 void list_traversal(AdjList * list, ListCallback callback){
     
+    if(!list)
+        perror("Could not cross unexisting list!\n");
+
     Cell * current = list->first;
     while(current){
         // Define what callback gonna do
-        callback();
+        callback(current->adj);
         current = current->next;
     }
 }
 
 void list_push(AdjList * list, Adj adj){
+
+    if(!list)
+        perror("Could not push item into unexisting list!\n");
+
     Cell * new_cell = malloc(sizeof(Cell));
     new_cell->next = NULL;
     new_cell->adj = adj;
@@ -54,11 +66,23 @@ void list_push(AdjList * list, Adj adj){
 }
 
 void end_list(AdjList * list){
-    Cell * current = list->first, *aux = NULL;
-    while(current){
-        aux = current->next;
-        free(current);
-        current = aux;
+    if(list){
+        Cell * current = list->first, *aux = NULL;
+        while(current){
+            aux = current->next;
+            free(current);
+            current = aux;
+        }
+        free(list);
     }
-    free(list);
+}
+
+void end_list_vector(AdjList ** vector, int size){
+    if(vector){
+        printf("oi\n");
+        for(int x=0; x<size; x++){
+            end_list(vector[x]);
+        }
+        free(vector);
+    }
 }
