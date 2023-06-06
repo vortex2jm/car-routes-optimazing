@@ -31,10 +31,12 @@ void read_file_header(int *node_amount, int *edge_amount, int *src_node, int *de
 
 // Reading edges and creating adjacency vector
 //======================================================//
-AdjList ** read_edges(FILE * file, int node_amount, int edge_amount){
+AdjList **read_edges(FILE *file, int node_amount, int edge_amount, double velocity)
+{
 
-    AdjList ** list_vector = malloc(sizeof(AdjList*) * node_amount);
-    for(int x=0; x<node_amount; x++){
+    AdjList **list_vector = malloc(sizeof(AdjList *) * node_amount);
+    for (int x = 0; x < node_amount; x++)
+    {
         list_vector[x] = init_list();
     }
 
@@ -45,15 +47,15 @@ AdjList ** read_edges(FILE * file, int node_amount, int edge_amount){
     for (int x = 0; x < edge_amount; x++)
     {
         fscanf(file, "%d;%d;%lf\n", &src, &dest, &distance);
-        adj = init_adj(dest, distance);
-        list_push(list_vector[src-1], adj);
+        adj = init_adj(dest, distance, calculate_weight(distance, velocity));
+        list_push(list_vector[src - 1], adj);
     }
 
     return list_vector;
 }
 
 //======================================================//
-Update *read_updates(FILE *file, int * updates_amount)
+Update *read_updates(FILE *file, int *updates_amount)
 {
     // Getting current seek
     long file_seek = ftell(file);
@@ -69,7 +71,7 @@ Update *read_updates(FILE *file, int * updates_amount)
 
     // Assigning value of updates amount
     *updates_amount = line_count;
-    
+
     // Reseting seek after counting
     fseek(file, file_seek, SEEK_SET);
 

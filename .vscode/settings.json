@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "pq.h": "c",
+        "algorithm.h": "c",
+        "adjacency.h": "c"
+    }
+}
