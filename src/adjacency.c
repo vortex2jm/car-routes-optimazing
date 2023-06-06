@@ -41,7 +41,7 @@ AdjList *init_list()
 }
 
 // You can  add parameters to this function too
-void list_traversal(AdjList *list, ListCallback callback, int v_id, int *visited, double *dist, PQ pq)
+void list_traversal(AdjList *list, ListCallback callback, int v_id, int *visited, double *dist, double *time, PQ pq, int *path)
 {
 
     if (!list)
@@ -51,7 +51,7 @@ void list_traversal(AdjList *list, ListCallback callback, int v_id, int *visited
     while (current)
     {
         // Define what callback gonna do
-        callback(current->adj, v_id, visited, dist, pq);
+        callback(current->adj, v_id, visited, dist, time, pq, path);
         current = current->next;
     }
 }
@@ -95,11 +95,33 @@ void end_list_vector(AdjList **vector, int size)
 {
     if (vector)
     {
-        printf("oi\n");
         for (int x = 0; x < size; x++)
         {
             end_list(vector[x]);
         }
         free(vector);
+    }
+}
+
+void print_list(AdjList *list)
+{
+    Cell *cell = list->first;
+
+    while (cell != NULL)
+    {
+        print_adj(cell->adj);
+        cell = cell->next;
+    }
+}
+void print_list_vector(AdjList **vector, int size)
+{
+    if (vector)
+    {
+        for (int x = 0; x < size; x++)
+        {
+            printf("node %d:\n", x + 1);
+            print_list(vector[x]);
+            printf("END\n\n");
+        }
     }
 }

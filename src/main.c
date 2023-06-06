@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// void printPathMain(int *path, int node);
+
 int main(int argc, char *argv[])
 {
   int node_amount = 0, edge_amount = 0, updates_amount = 0;
@@ -18,23 +20,40 @@ int main(int argc, char *argv[])
 
   read_file_header(&node_amount, &edge_amount, &main_src_node, &main_dest_node, &intial_velocity, file);
   AdjList **adjacency_vector = read_edges(file, node_amount, edge_amount, intial_velocity);
-
-  // Testing adjacency list
   Update *velocity_updates = read_updates(file, &updates_amount);
-  for (int x = 0; x < node_amount; x++)
-  {
-    // printf("NODE %d\n", x);
-    // list_traversal(adjacency_vector[x], print_adj);
-  }
 
-  // Testing updates
+  int *path = malloc(sizeof(int) * (node_amount + 1));
+  for (int i = 0; i < node_amount; i++)
+    path[i] = 0;
+  double distanceTravelled = 0;
+  double timeTravelled = 0;
 
-  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node);
+  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled);
+
+  printf("Distance: %lf\n", distanceTravelled);
+  printf("Time: %lf\n", timeTravelled);
+  printf("Path: ");
+  printPath(path, main_dest_node);
+  printf("\n");
 
   fclose(file);
   free(input_file);
   // free(output_file);
+  free(path);
   free(velocity_updates);
   end_list_vector(adjacency_vector, node_amount);
   return 0;
 }
+
+// void printPathMain(int *path, int node)
+// {
+//   if (path[node] == 0)
+//   {
+//     printf("%d", node);
+//   }
+//   else
+//   {
+//     printPath(path, path[node]);
+//     printf(" -> %d", node);
+//   }
+// }
