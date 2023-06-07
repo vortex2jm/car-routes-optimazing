@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
 
   dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled);
 
-  printf("Distance: %lf\n", distanceTravelled);
-  printf("Time: %lf\n", timeTravelled);
-  printf("Path: ");
-  printPath(path, main_dest_node);
-  printf("\n");
+  // printf("Distance: %lf\n", distanceTravelled);
+  // printf("Time: %lf\n", timeTravelled);
+  // printf("Path: ");
+  // printPath(path, main_dest_node);
+  // printf("\n");
 
   fclose(file);
   free(input_file);
