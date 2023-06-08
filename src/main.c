@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   double distanceTravelled = 0;
   double timeTravelled = 0;
 
-  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled);
+  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled, edge_amount);
 
   // printf("Distance: %lf\n", distanceTravelled);
   // printf("Time: %lf\n", timeTravelled);

@@ -26,6 +26,7 @@ void end_list(AdjList *list);
 void end_list_vector(AdjList **vector, int size);
 void print_list(AdjList *list);
 void print_list_vector(AdjList **vector, int size);
+void free_list(AdjList *list);
 
 #define id(A) (A.node_id)                   // return node identifier
 #define value(A) (A.time)                   // return node value

@@ -39,8 +39,8 @@ void fix_down(PQ pq, int sz, int k)
 
 void PQ_init(PQ pq, int maxN)
 {
-    pq->pq = malloc((maxN + 1) * sizeof(Adj));
-    pq->map = malloc((maxN + 1) * sizeof(int));
+    pq->pq = (Adj *)malloc((maxN + 1) * sizeof(Adj));
+    pq->map = (int *)malloc((maxN + 1) * sizeof(int));
     pq->N = 0;
 }
 
@@ -48,7 +48,9 @@ void PQ_insert(PQ pq, Adj v)
 {
     pq->N++;
     pq->pq[pq->N] = v;
+
     pq->map[id(v)] = pq->N;
+
     fix_up(pq, pq->N);
 }
 
@@ -87,4 +89,5 @@ void PQ_finish(PQ pq)
 {
     free(pq->pq);
     free(pq->map);
+    free(pq);
 }

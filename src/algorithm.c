@@ -6,15 +6,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define INFINITY 999999999
+#define INFINITY __DBL_MAX__
 
 // Prototypes =============================================//
-void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled);
+void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount);
 void updateDistanceCallback(Adj adj, int v_id, int *visited, double *dist, double *time, PQ pq, int *path);
 void printPath(int *path, int node);
 
 // Implementations=========================================//
-void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled)
+void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount)
 {
     double time[node_amount + 1];
     double dist[node_amount + 1];
@@ -34,8 +34,8 @@ void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest
     }
 
     // Initializing priority queue
-    PQ pq = malloc(sizeof(struct priority_queue));
-    PQ_init(pq, node_amount);
+    PQ pq = (PQ)malloc(sizeof(struct priority_queue));
+    PQ_init(pq, edge_amount);
     // Setting main source node distance to 0
 
     dist[main_src_node] = 0;
@@ -74,7 +74,6 @@ void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest
     printf("Dijkstra's algorithm results:\n");
 
     PQ_finish(pq);
-    free(pq);
 }
 
 void updateDistanceCallback(Adj adj, int v_id, int *visited, double *dist, double *time, PQ pq, int *path)
