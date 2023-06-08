@@ -20,6 +20,9 @@ void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest
     double dist[node_amount + 1];
     int visited[node_amount + 1];
 
+    for (int i = 0; i < node_amount + 1; i++)
+        path[i] = 0;
+
     // Initializing dist and visited
 
     for (int i = 1; i <= node_amount; i++)

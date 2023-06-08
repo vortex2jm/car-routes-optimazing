@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// void printPathMain(int *path, int node);
+void printPathMain(int *path, int node);
 
 int main(int argc, char *argv[])
 {
@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
   AdjList **adjacency_vector = read_edges(file, node_amount, edge_amount, intial_velocity);
   Update *velocity_updates = read_updates(file, &updates_amount);
 
+  // print_list_vector(adjacency_vector, node_amount);
   int *path = malloc(sizeof(int) * (node_amount + 1));
-  for (int i = 0; i < node_amount; i++)
-    path[i] = 0;
+
   double distanceTravelled = 0;
   double timeTravelled = 0;
 
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
   // printf("Distance: %lf\n", distanceTravelled);
   // printf("Time: %lf\n", timeTravelled);
   // printf("Path: ");
-  // printPath(path, main_dest_node);
-  // printf("\n");
+  printPathMain(path, main_dest_node);
+  printf("\n");
 
   fclose(file);
   free(input_file);
@@ -45,15 +45,15 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-// void printPathMain(int *path, int node)
-// {
-//   if (path[node] == 0)
-//   {
-//     printf("%d", node);
-//   }
-//   else
-//   {
-//     printPath(path, path[node]);
-//     printf(" -> %d", node);
-//   }
-// }
+void printPathMain(int *path, int node)
+{
+  if (path[node] == 0)
+  {
+    printf("%d", node);
+  }
+  else
+  {
+    printPathMain(path, path[node]);
+    printf(" -> %d", node);
+  }
+}

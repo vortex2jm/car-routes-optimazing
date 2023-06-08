@@ -95,5 +95,5 @@ double calculate_weight(double distance, double velocity)
     // Transforming velocity to m/s
     // Returning time in seconds
     velocity = velocity / 3.6;
-    return velocity / distance;
+    return distance / velocity;
 }
