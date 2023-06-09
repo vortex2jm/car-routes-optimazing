@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
   int node_amount = 0, edge_amount = 0, updates_amount = 0;
   int main_src_node = 0, main_dest_node = 0;
   double intial_velocity;
+  int path_length = 0;
 
   char *input_file = strdup(argv[1]);
   // char * output_file = strdup(argv[2]);
@@ -28,12 +29,16 @@ int main(int argc, char *argv[])
   double distanceTravelled = 0;
   double timeTravelled = 0;
 
-  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled, edge_amount);
+  dijkstra(adjacency_vector, node_amount, main_src_node, main_dest_node, path, &distanceTravelled, &timeTravelled, edge_amount, &path_length);
 
   // printf("Distance: %lf\n", distanceTravelled);
   // printf("Time: %lf\n", timeTravelled);
   // printf("Path: ");
-  printPathMain(path, main_dest_node);
+  printf("Path length: %d\n", path_length);
+  for (int i = 0; i < path_length; i++)
+  {
+    printf("%d ", path[i]);
+  }
   printf("\n");
 
   fclose(file);

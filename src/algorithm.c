@@ -9,12 +9,13 @@
 #define INFINITY __DBL_MAX__
 
 // Prototypes =============================================//
-void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount);
+void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount, int *path_length);
 void updateDistanceCallback(Adj adj, int v_id, int *visited, double *dist, double *time, PQ pq, int *path);
 void printPath(int *path, int node);
+void savePath(int *path, int node, int *pathArray, int *pathLength);
 
 // Implementations=========================================//
-void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount)
+void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest_node, int *path, double *distanceTraveled, double *timeTraveled, int edge_amount, int *path_length)
 {
     double time[node_amount + 1];
     double dist[node_amount + 1];
@@ -71,9 +72,27 @@ void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest
 
     distanceTraveled[0] = dist[main_dest_node];
     timeTraveled[0] = time[main_dest_node];
-    printf("Dijkstra's algorithm results:\n");
+
+    // save path
+    int pathArray[node_amount];
+    savePath(path, main_dest_node, pathArray, path_length);
+    for (int i = 0; i < *path_length; i++)
+    {
+        path[i] = pathArray[i];
+    }
 
     PQ_finish(pq);
+}
+
+void savePath(int *path, int node, int *pathArray, int *path_length)
+{
+    if (path[node] != 0)
+    {
+        savePath(path, path[node], pathArray, path_length);
+    }
+
+    pathArray[*path_length] = node;
+    (*path_length)++;
 }
 
 void updateDistanceCallback(Adj adj, int v_id, int *visited, double *dist, double *time, PQ pq, int *path)
