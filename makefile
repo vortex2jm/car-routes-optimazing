@@ -1,4 +1,4 @@
-EXECUTABLE       = trab1
+EXECUTABLE       = trab2
 SRC              = ./src
 INCLUDE          = ./include
 OBJ              = ./obj
