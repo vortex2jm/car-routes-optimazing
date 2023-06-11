@@ -53,33 +53,25 @@ void dijkstra(AdjList **graph, int node_amount, int main_src_node, int main_dest
         visited[v_id] = 1;
 
         AdjList *list = graph[v_id - 1];
+
+        // Updating distance and time
+        // Travelling through adjacency list
         list_traversal(list, updateDistanceCallback, v_id, visited, dist, time, pq, path);
     }
-
-    // Printing path
-    // printf("Path: ");
-    // printPath(path, main_dest_node);
-    // printf("\n");
-
-    // Printing results
-    // printf("Dijkstra's algorithm results:\n");
-    // printf("Source node: %d\n", main_src_node);
-    // printf("Destination node: %d\n", main_dest_node);
-    // printf("Distance: %lf\n", dist[main_dest_node]);
-    // printf("Time: %lf\n", time[main_dest_node]);
-    // printf("=====================================\n");
 
     // Saving results
 
     distanceTraveled[0] = dist[main_dest_node];
     timeTraveled[0] = time[main_dest_node];
-    // save path
+
+    // Saving path
     int pathArray[node_amount];
     savePath(path, main_dest_node, pathArray, path_length);
     for (int i = 0; i < *path_length; i++)
     {
         path[i] = pathArray[i];
     }
+    // path can be acessed in main function
 
     PQ_finish(pq);
 }
@@ -102,14 +94,18 @@ void updateDistanceCallback(Adj adj, int v_id, int *visited, double *dist, doubl
     {
         if (time[w_id] > time[v_id] + value(adj))
         {
+
+            // Updating distance and time
             time[w_id] = time[v_id] + value(adj);
             dist[w_id] = dist[v_id] + dist(adj);
+
             path[w_id] = v_id;
             PQ_insert(pq, init_adj(w_id, dist[w_id], time[w_id]));
         }
     }
 }
 
+// auxiliar function
 void printPath(int *path, int node)
 {
     if (path[node] == 0)
