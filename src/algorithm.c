@@ -1,5 +1,4 @@
 #include "../include/algorithm.h"
-#include "../include/edge.h"
 #include "../include/adjacency.h"
 #include "../include/PQ.h"
 #include "../include/util.h"
